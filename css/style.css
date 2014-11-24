@@ -30,8 +30,7 @@ body {
 	font-size: 18px;
 }
 
-.block-flat,
-.block-wizard {
+.block-flat {
   margin-bottom: 40px;
   padding: 20px 20px;
   background: #FFF;
