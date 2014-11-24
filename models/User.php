@@ -22,14 +22,14 @@ class User {
 
 		if($userData['password'] !== $userData['password_confirmation'])
 			$errors[] = "The passwords do not match.";
-
-		if($db->query(
-			"SELECT COUNT(*) FROM users WHERE username = :username",
-			array(['username' => $userData['username']])
-		))
-		{
-			$errors[] = "That username already exists.";
-		}
+        
+        $result = $db->query(
+            "SELECT COUNT(*) FROM users WHERE username = ?",
+            array($userData['username']));
+        if($result[0][0] !== '0')
+        {
+            $errors[] = "The user already exists.";
+        }
 
 		$this->name = $userData['username'];
 		$this->password = password_hash($userData['password'], PASSWORD_BCRYPT);
@@ -47,7 +47,6 @@ class User {
 		} else {
 			return $errors;
 		}
-
 
 	}
 

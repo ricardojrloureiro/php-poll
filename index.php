@@ -1,4 +1,4 @@
-<?php 
+<?php
 session_start();
 require __DIR__."/template/header.php"; ?>
 
@@ -50,7 +50,7 @@ require __DIR__."/template/header.php"; ?>
 					</ul>
 				</div>
 			</div>
-		</div>	
+		</div>
 	</div>
 
 </div><!-- /.container -->
