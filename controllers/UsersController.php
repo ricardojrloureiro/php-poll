@@ -45,6 +45,18 @@ class UsersController
 			$user = $user[0];
 		}
 
-		var_dump(password_verify($postData['password'], $user['password']));
+        session_start();
+        session_set_cookie_params(0, '/~ei12038/proj', 'gnomo.fe.up.pt');
+
+		if(password_verify($postData['password'], $user['password']))
+        {
+            $_SESSION['username'] = $user['username'];
+            header("Location: index.php");
+            exit();
+        } else {
+            $_SESSION['errors'] = array('Incorrect password for the given username.');
+            header("Location: index.php");
+            exit();
+        }
 	}
 }
