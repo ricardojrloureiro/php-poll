@@ -22,16 +22,16 @@ class User {
 
 		if($userData['password'] !== $userData['password_confirmation'])
 			$errors[] = "The passwords do not match.";
-        
+
         $result = $db->query(
             "SELECT COUNT(*) FROM users WHERE username = ?",
             array($userData['username']));
         if($result[0][0] !== '0')
         {
-            $errors[] = "The user already exists.";
+            $errors[] = "That username already exists.";
         }
 
-		$this->name = $userData['username'];
+		$this->username = $userData['username'];
 		$this->password = password_hash($userData['password'], PASSWORD_BCRYPT);
 
 		if(empty($errors))
@@ -39,7 +39,7 @@ class User {
 			$db->save(
 				"INSERT INTO users (username, password) VALUES (:username, :password)",
 				array(
-					'username' => $this->name,
+					'username' => $this->username,
 					'password' => $this->password
 				)
 			);
