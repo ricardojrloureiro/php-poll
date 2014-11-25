@@ -22,7 +22,7 @@ class UsersController
 			header("Location: index.php");
 			exit();
 		} else {
-			$_SESSION['username'] = $user->name;
+			$_SESSION['username'] = $user->username;
 			header("Location: index.php");
 			exit();
 		}
