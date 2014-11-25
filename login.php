@@ -1,8 +1,19 @@
-<?php require __DIR__.'/template/header.php'; ?>
+<?php
+session_start();
+require __DIR__.'/template/header.php'; ?>
 
 <div class="container">
   <div class="row">
     <div class="col-md-12">
+        <?php if (isset($_SESSION['errors'])): ?>
+            <?php foreach($_SESSION['errors'] as $error): ?>
+                <div class="alert alert-danger" role="alert">
+                    <span class="sr-only">Error:</span>
+                    <?php echo $error; ?>
+                </div>
+            <?php endforeach; ?>
+            <?php unset($_SESSION['errors']); ?>
+        <?php endif; ?>
     <div class="block-flat">
       <div class="row">
         <div class="col-md-4 col-md-offset-4">

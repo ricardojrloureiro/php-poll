@@ -19,11 +19,11 @@ class UsersController
 		if(is_array($result))
 		{
 			$_SESSION['errors'] = $result;
-			header("Location: index.php");
+			header("Location: register.php");
 			exit();
 		} else {
 			$_SESSION['username'] = $user->username;
-			header("Location: index.php");
+			header("Location: register.php");
 			exit();
 		}
 	}
@@ -43,13 +43,12 @@ class UsersController
 		if(empty($user))
 		{
             $_SESSION['errors'] = array('Incorrect username.');
-            header("Location: index.php");
+            header("Location: login.php");
             exit();
 		} else 
 		{
 			$user = $user[0];
 		}
-
 
 		if(password_verify($postData['password'], $user['password']))
         {
@@ -58,7 +57,7 @@ class UsersController
             exit();
         } else {
             $_SESSION['errors'] = array('Incorrect password for the given username.');
-            header("Location: index.php");
+            header("Location: login.php");
             exit();
         }
 	}

@@ -18,7 +18,7 @@ class User {
 			$errors[] = "Invalid username.";
 
 		if(strlen($userData['password']) <= 5)
-			$errors[] = "Invalid password.";
+			$errors[] = "Invalid password, it requires at least 6 characters.";
 
 		if($userData['password'] !== $userData['password_confirmation'])
 			$errors[] = "The passwords do not match.";
