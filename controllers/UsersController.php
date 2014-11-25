@@ -32,6 +32,9 @@ class UsersController
 	{
 		$db = new \Db;
 
+        session_start();
+        session_set_cookie_params(0, '/~ei12038/proj', 'gnomo.fe.up.pt');
+
 		$user = $db->query(
 			"SELECT * FROM users WHERE username = ?",
 			array($postData['username'])
@@ -39,14 +42,14 @@ class UsersController
 
 		if(empty($user))
 		{
-			return false;
+            $_SESSION['errors'] = array('Incorrect username.');
+            header("Location: index.php");
+            exit();
 		} else 
 		{
 			$user = $user[0];
 		}
 
-        session_start();
-        session_set_cookie_params(0, '/~ei12038/proj', 'gnomo.fe.up.pt');
 
 		if(password_verify($postData['password'], $user['password']))
         {
