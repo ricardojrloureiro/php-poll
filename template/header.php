@@ -26,7 +26,7 @@
           <?php if(isset($_SESSION['username'])): ?>
               <li><a href="create_poll.php">Add poll</a></li>
               <li><a href="logout.php">Logout</a></li>
-              <li><?php echo $_SESSION['username'] ?></li>
+              <li><a href="modify_user.php">Welcome, <?php echo $_SESSION['username'] ?></a></li>
         <?php else: ?>
           <li><a href="login.php">Login</a></li>
           <li><a href="register.php">Register</a></li>

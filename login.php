@@ -4,7 +4,7 @@ require __DIR__.'/template/header.php'; ?>
 
 <div class="container">
   <div class="row">
-    <div class="col-md-12">
+    <div class="col-md-8 col-md-offset-2">
         <?php if (isset($_SESSION['errors'])): ?>
             <?php foreach($_SESSION['errors'] as $error): ?>
                 <div class="alert alert-danger" role="alert">

@@ -12,7 +12,8 @@ class PollController
          * Add more information to put into the database
          */
         $result = $currentPoll->save([
-            'title' => $postData['title']
+            'title' => $postData['title'],
+            'option' => $postData['option']
         ]);
 
         if(is_array($result)){

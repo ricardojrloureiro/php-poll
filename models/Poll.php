@@ -14,14 +14,7 @@ class Poll {
 
         $errors = [];
 
-        /**
-         * Acrescentar condições de erro na criação de uma poll
-         */
-
-
-        /**
-         * acrescentar associações boyz
-         */
+        //TODO acrescentar condições de erro na criação de uma poll
 
         $this->user_id = $db->query(
             "SELECT user_id from Users where username = ?",
@@ -41,6 +34,9 @@ class Poll {
                     'public' => ''
                 )
             );
+
+           //TODO insert na bd das options de cada poll
+
             return true;
         }else{
             return $errors;

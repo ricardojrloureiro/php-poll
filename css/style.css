@@ -54,3 +54,8 @@ th {
 	font-weight: normal;
 	font-size: 14px;
 }
+
+.poll-btn {
+    margin-top: 2%;
+    margin-right: 2%;
+}
