@@ -1,5 +1,6 @@
 <?php
 session_start();
+include 'db.php';
 require __DIR__."/template/header.php"; ?>
 
 <div class="container">
@@ -18,23 +19,24 @@ require __DIR__."/template/header.php"; ?>
 				<table class="table">
 				  <thead>
 				    <tr>
-				      <th width="10%">Answers</th>
-				      <th>Title</th>
+				      <th width="10%">Poll id</th>
+				      <th> Title </th>
 				    </tr>
 				  </thead>
 				  <tbody>
+                    <?php
+                    $db = new \Db;
+                    $results = $db->query(
+                        "SELECT * FROM Poll",
+                        array()
+                    );
+                    ?>
+                    <?php foreach($results as $result):?>
 				    <tr>
-				      <td>1</td>
-				      <td>Mark</td>
+				      <td><?php echo $result['poll_id'] ?></td>
+				      <td><?php echo $result['title'] ?></td>
 				    </tr>
-				    <tr>
-				      <td>2</td>
-				      <td>Jacob</td>
-				    </tr>
-				    <tr>
-				      <td>3</td>
-				      <td>Larry</td>
-				    </tr>
+                    <?php endforeach;?>
 				  </tbody>
 				</table>
 

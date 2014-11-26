@@ -23,7 +23,6 @@ class PollController
             header("Location: index.php");
             exit();
         }
-
     }
 
     public function view_poll()
