@@ -1,4 +1,4 @@
-<?php
+<?php namespace Poll;
 
 class Db {
 
@@ -6,7 +6,7 @@ class Db {
 
     function __construct()
     {
-        $this->db = new PDO('sqlite:proj.db');
+        $this->db = new \PDO('sqlite:proj.db');
     }
 
     public function query($query, $parameters)

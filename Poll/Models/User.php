@@ -1,16 +1,27 @@
-<?php namespace Models;
+<?php namespace Poll\Models;
 
-include 'db.php';
-include 'password_hash.php';
+use Poll\Db;
 
 class User {
 
 	public $username;
 	public $password;
 
+    public static function getIdByUsername($username)
+    {
+
+        $db = new Db;
+
+        return $db->query(
+            "SELECT user_id from users where username = ?",
+            array($_SESSION['username'])
+        )[0][0];
+
+    }
+
 	public function save($userData)
 	{
-		$db = new \Db;
+		$db = new Db;
 
 		$errors = [];
 

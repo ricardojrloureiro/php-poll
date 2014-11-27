@@ -1,60 +1,73 @@
 <?php
-session_start();
-include 'db.php';
-require __DIR__."/template/header.php"; ?>
+require 'bootstrap.php';
 
-<div class="container">
-	<div class="row">
-		<div class="col-md-12">
-			<?php if (isset($_SESSION['errors'])): ?>
-				<?php foreach($_SESSION['errors'] as $error): ?>
-					<div class="alert alert-danger" role="alert">
-					  <span class="sr-only">Error:</span>
-					  <?php echo $error; ?>
-					</div>
-				<?php endforeach; ?>
-				<?php unset($_SESSION['errors']); ?>
-			<?php endif; ?>
-			<div class="block-flat">
-				<table class="table">
-				  <thead>
-				    <tr>
-				      <th width="10%">Poll id</th>
-				      <th> Title </th>
-				    </tr>
-				  </thead>
-				  <tbody>
-                    <?php
-                    $db = new \Db;
-                    $results = $db->query(
-                        "SELECT * FROM Poll",
-                        array()
-                    );
-                    ?>
-                    <?php foreach($results as $result):?>
-				    <tr>
-				      <td><?php echo $result['poll_id'] ?></td>
-				      <td><?php echo $result['title'] ?></td>
-				    </tr>
-                    <?php endforeach;?>
-				  </tbody>
-				</table>
+$httpMethod = $_SERVER['REQUEST_METHOD'];
+$requestedPage = isset($_GET['page']) ? $_GET['page'] : "index";
 
-				<div class="text-center">
-					<ul class="pagination">
-						<li><a href="#"><span aria-hidden="true">&laquo;</span><span class="sr-only">Previous</span></a></li>
-						<li><a href="#">1</a></li>
-						<li><a href="#">2</a></li>
-						<li><a href="#">3</a></li>
-						<li><a href="#">4</a></li>
-						<li><a href="#">5</a></li>
-						<li><a href="#"><span aria-hidden="true">&raquo;</span><span class="sr-only">Next</span></a></li>
-					</ul>
-				</div>
-			</div>
-		</div>
-	</div>
+if($httpMethod === "GET")
+{
+    switch($requestedPage) {
+        case "index":
+            $pollController = new \Poll\Controllers\PollController;
+            $pollController->index();
+            break;
 
-</div><!-- /.container -->
+        case "register":
+            $usersController = new \Poll\Controllers\UsersController;
+            $usersController->showRegister();
+            break;
 
-<?php require __DIR__."/template/footer.php"; ?>
+        case "login":
+            $usersController = new \Poll\Controllers\UsersController;
+            $usersController->showLogin();
+            break;
+
+        case "logout":
+            $usersController = new \Poll\Controllers\UsersController;
+            $usersController->logout();
+            break;
+
+        case "createPoll":
+            $pollController = new \Poll\Controllers\PollController;
+            $pollController->showCreate();
+            break;
+
+        case "showPoll":
+            $pollController = new \Poll\Controllers\PollController;
+            $pollController->showPoll($_GET['id']);
+            break;
+
+        default:
+            $_SESSION['errors'] = array(
+                'Page not found.'
+            );
+            header("Location: index.php");
+            break;
+    }
+}
+
+
+if($httpMethod === "POST")
+{
+    switch($requestedPage) {
+        case "register":
+            $usersController = new \Poll\Controllers\UsersController;
+            $usersController->register($_POST);
+            break;
+
+        case "login":
+            $usersController = new \Poll\Controllers\UsersController;
+            $usersController->login($_POST);
+            break;
+
+        case "createPoll":
+            $pollController = new \Poll\Controllers\PollController;
+            $pollController->create($_POST, $_FILES);
+            break;
+
+        case "showPoll":
+            $pollController = new \Poll\Controllers\PollController;
+            $pollController->vote($_GET['id'], $_POST);
+            break;
+    }
+}

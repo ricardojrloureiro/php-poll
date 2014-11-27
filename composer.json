@@ -1,0 +1,8 @@
+{
+    "autoload": {
+        "psr-4": {"Poll\\": "Poll/"}
+    },
+    "files" : [
+        "helpers/password_hash.php"
+    ]
+}

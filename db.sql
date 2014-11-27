@@ -5,13 +5,14 @@ CREATE TABLE IF NOT EXISTS users
 	password TEXT
 );
 
-CREATE TABLE IF NOT EXISTS poll
+CREATE TABLE IF NOT EXISTS polls
 (
 	poll_id INTEGER PRIMARY KEY,
 	user_id INTEGER,
 	title TEXT,
 	image TEXT,
 	public BOOLEAN,
+	multiple BOOLEAN,
 
 	FOREIGN KEY (user_id) REFERENCES users(user_id)
 );

@@ -1,23 +1,14 @@
 <?php
-session_start();
-require __DIR__.'/template/header.php'; ?>
+require templatePath() . "/partials/header.php"; ?>
 
 <div class="container">
   <div class="row">
       <div class="col-md-8 col-md-offset-2">
-          <?php if (isset($_SESSION['errors'])): ?>
-            <?php foreach($_SESSION['errors'] as $error): ?>
-                <div class="alert alert-danger" role="alert">
-                    <span class="sr-only">Error:</span>
-                    <?php echo $error; ?>
-                </div>
-            <?php endforeach; ?>
-            <?php unset($_SESSION['errors']); ?>
-        <?php endif; ?>
-    <div class="block-flat">
-      <div class="row">
-        <div class="col-md-4 col-md-offset-4">
-            <form role="form" action="router.php?page=register" method="POST">
+          <?php require templatePath() . "/partials/errors.php"; ?>
+        <div class="block-flat">
+          <div class="row">
+            <div class="col-md-4 col-md-offset-4">
+            <form role="form" action="index.php?page=register" method="POST">
               <div class="form-group">
                 <label for="username">Username</label>
                 <input type="text" class="form-control" name="username" id="username" placeholder="Enter username">
@@ -39,4 +30,4 @@ require __DIR__.'/template/header.php'; ?>
   </div>
 </div><!-- /.container -->
 
-<?php require __DIR__.'/template/footer.php'; ?>
+<?php require templatePath() . "/partials/footer.php"; ?>
