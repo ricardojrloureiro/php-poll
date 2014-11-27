@@ -2,11 +2,17 @@
 
 class Db {
 
-	public function query($query, $parameters)
-	{
-		$db = new PDO('sqlite:proj.db');
+    protected $db;
 
-		$stmt = $db->prepare($query);
+    function __construct()
+    {
+        $this->db = new PDO('sqlite:proj.db');
+    }
+
+    public function query($query, $parameters)
+	{
+
+		$stmt = $this->db->prepare($query);
 		$stmt->execute($parameters);
 		$result = $stmt->fetchAll();
 
@@ -15,10 +21,14 @@ class Db {
 
 	public function save($query, $parameters)
 	{
-		$db = new PDO('sqlite:proj.db');
 
-		$stmt = $db->prepare($query);
+		$stmt = $this->db->prepare($query);
 		$stmt->execute($parameters);
 	}
+
+    public function getLastId()
+    {
+        return $this->db->lastInsertId();
+    }
 
 }

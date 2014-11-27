@@ -22,6 +22,7 @@ class Poll {
          )[0][0];
 
         $this->title = $pollData['title'];
+        $this->options = $pollData['option'];
 
         if(empty($errors))
         {
@@ -35,7 +36,18 @@ class Poll {
                 )
             );
 
-           //TODO insert na bd das options de cada poll
+            $poll_id = $db->getLastId();
+
+            foreach($this->options as $option)
+            {
+                $db->save(
+                    "INSERT INTO options(poll_id,value) VALUES(:poll_id,:value)",
+                    array(
+                        $poll_id,
+                        $option
+                    )
+                 );
+            }
 
             return true;
         }else{
