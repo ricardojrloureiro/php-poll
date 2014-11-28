@@ -25,7 +25,7 @@ class UsersController
         $_SESSION = array();
         session_destroy();
         session_start();
-        $_SESSION['errors'] = array(
+        $_SESSION['success'] = array(
             "You've been logged out."
         );
         header("Location: index.php");
@@ -47,6 +47,9 @@ class UsersController
 			exit();
 		} else {
 			$_SESSION['username'] = $user->username;
+            $_SESSION['success'] = array(
+                "You've been successfully registered."
+            );
 			header("Location: index.php");
 			exit();
 		}
@@ -74,6 +77,9 @@ class UsersController
 		if(password_verify($postData['password'], $user['password']))
         {
             $_SESSION['username'] = $user['username'];
+            $_SESSION['success'] = array(
+                "You've been successfully logged in."
+            );
             header("Location: index.php");
             exit();
         } else {

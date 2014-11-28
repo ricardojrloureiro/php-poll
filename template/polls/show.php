@@ -5,6 +5,8 @@ require templatePath() . "/partials/header.php";
 <div class="container">
     <div class="row">
         <div class="col-md-12">
+            <?php include __DIR__ . "/../partials/errors.php"; ?>
+            <?php include __DIR__ . "/../partials/success.php"; ?>
             <div class="block-flat">
                 <div class="row">
                     <div class="col-md-4 poll-div">
@@ -27,7 +29,6 @@ require templatePath() . "/partials/header.php";
                         <?php endforeach; ?>
                             <input type="submit" value="Vote" class="btn btn-default">
                         </form>
-
                     </div>
                     <div class="col-md-4 col-md-offset-4">
                         <img src="uploads/<?= $poll->image; ?>" />

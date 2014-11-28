@@ -33,8 +33,7 @@ class PollController
     public function showPoll()
     {
         $poll = new Poll;
-        if(! $poll->load($_GET['id']))
-        {
+        if (!$poll->load($_GET['id'])) {
             pageNotFound();
         }
         require templatePath() . "/polls/show.php";
@@ -44,9 +43,6 @@ class PollController
     {
         $currentPoll = new Poll;
 
-        /**
-         * Add more information to put into the database
-         */
         $result = $currentPoll->save([
             'title' => $postData['title'],
             'option' => $postData['option'],
@@ -60,6 +56,9 @@ class PollController
             header("Location: index.php?page=createPoll");
             exit();
         } else {
+            $_SESSION['success'] = array(
+                'Your poll has been created.'
+            );
             header("Location: index.php");
             exit();
         }
@@ -79,37 +78,64 @@ class PollController
             pageNotFound();
         }
 
-        $db = new Db;
 
-        $questionmarks = str_repeat("?,", count($optionsData['option'])-1) . "?";
 
-        $optionsWithId = $optionsData['option'];
-        array_push($optionsWithId, $id);
-
-        $countValidOptions = $db->query("SELECT COUNT(*) FROM options WHERE option_id IN ($questionmarks) AND poll_id = ?",
-            $optionsWithId
-        );
-
-        //one or more invalid selections were made
-        if($countValidOptions[0][0] != count($optionsData['option']))
+        if($optionsData == NULL)
         {
-            pageNotFound();
+            header("Location: index.php?page=showPoll&id=".$id);
+            $_SESSION['errors'] = array(
+                "Please choose at least one of the options below."
+            );
+            exit();
         }
 
-        $user_id = \Poll\Models\User::getIdByUsername($_SESSION['username']);
+        $db = new Db;
 
-        foreach($optionsData['option'] as $option)
+        if($poll->multiple)
         {
+            $questionmarks = str_repeat("?,", count($optionsData['option'])-1) . "?";
+
+            $optionsWithId = $optionsData['option'];
+            array_push($optionsWithId, $id);
+
+            $countValidOptions = $db->query("SELECT COUNT(*) FROM options WHERE option_id IN ($questionmarks) AND poll_id = ?",
+                $optionsWithId
+            );
+            //one or more invalid selections were made
+            if($countValidOptions[0][0] != count($optionsData['option']))
+            {
+                pageNotFound();
+            }
+
+            $user_id = \Poll\Models\User::getIdByUsername($_SESSION['username']);
+
+            foreach($optionsData['option'] as $option)
+            {
+                $db->save(
+                    "INSERT INTO answers (user_id, option_id) VALUES(:user_id, :option_id)",
+                    array(
+                        'user_id' => $user_id,
+                        'option_id' => $option
+                    )
+                );
+            }
+        } else {
+            $user_id = \Poll\Models\User::getIdByUsername($_SESSION['username']);
             $db->save(
                 "INSERT INTO answers (user_id, option_id) VALUES(:user_id, :option_id)",
                 array(
                     'user_id' => $user_id,
-                    'option_id' => $option
+                    'option_id' => $optionsData['option']
                 )
             );
         }
 
-        die('done');
+
+        header("Location: index.php");
+        $_SESSION['success'] = array(
+            'Your answer has been saved.'
+        );
+        exit();
 
     }
 

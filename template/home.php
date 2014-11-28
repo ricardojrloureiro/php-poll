@@ -5,6 +5,7 @@ require __DIR__ . "/partials/header.php"; ?>
     <div class="container">
         <div class="row">
             <div class="col-md-12">
+                <?php include __DIR__ . "/partials/success.php"; ?>
                 <?php include __DIR__ . "/partials/errors.php"; ?>
                 <div class="block-flat">
                     <?php if(count($_SESSION['polls']) == 0): ?>
