@@ -32,11 +32,28 @@ class PollController
 
     public function showPoll()
     {
+        $hasVoted = new HasVotedFilter;
+        $result = $hasVoted->filter($_GET['id']);
+
+        if($result==true)
+        {
+            $_SESSION['success'] = array(
+                "Since you've already voted you've been redirected to the results."
+            );
+            header("Location: index.php?page=showResult&id=".$_GET['id']);
+            exit();
+        }
+
         $poll = new Poll;
         if (!$poll->load($_GET['id'])) {
             pageNotFound();
         }
         require templatePath() . "/polls/show.php";
+    }
+
+    public function showResult()
+    {
+        require templatePath() . "/polls/results.php";
     }
 
     public function create($postData, $files)
@@ -70,7 +87,16 @@ class PollController
         $isLoggedIn->filter();
 
         $hasVoted = new HasVotedFilter;
-        $hasVoted->filter($id);
+        $result = $hasVoted->filter($id);
+
+        if($result==true)
+        {
+            $_SESSION['errors'] = array(
+                "You've already voted."
+            );
+            header("Location: index.php");
+            exit();
+        }
 
         $poll = new Poll;
         if( ! $poll->load($id))
@@ -131,7 +157,7 @@ class PollController
         }
 
 
-        header("Location: index.php");
+        header("Location: index.php?page=showResult&id=".$_GET['id']);
         $_SESSION['success'] = array(
             'Your answer has been saved.'
         );

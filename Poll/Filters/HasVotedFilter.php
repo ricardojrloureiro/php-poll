@@ -22,12 +22,8 @@ class HasVotedFilter {
 
         if($hasAnswered[0][0] > 0)
         {
-            $_SESSION['errors'] = array(
-                "You've already voted."
-            );
-            header("Location: index.php");
-            exit();
+           return true;
         }
-
+        return false;
     }
 } 

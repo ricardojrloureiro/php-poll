@@ -37,6 +37,11 @@ if($httpMethod === "GET")
             $pollController->showPoll($_GET['id']);
             break;
 
+        case "showResult":
+            $pollController = new \Poll\Controllers\PollController;
+            $pollController->showResult();
+            break;
+
         default:
             $_SESSION['errors'] = array(
                 'Page not found.'
