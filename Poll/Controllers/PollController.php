@@ -32,6 +32,9 @@ class PollController
 
     public function showPoll()
     {
+        $isLoggedIn =  new LoggedInFilter;
+        $isLoggedIn->filter();
+
         $hasVoted = new HasVotedFilter;
         $result = $hasVoted->filter($_GET['id']);
 

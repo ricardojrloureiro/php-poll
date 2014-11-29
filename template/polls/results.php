@@ -6,8 +6,9 @@ require templatePath() . "/partials/header.php";
 <?php
     $db = new \Poll\Db;
     $results = $db->query(
-        "select Count(*),option_id from answers where option_id IN
-          (SELECT option_id from options where poll_id = ?) group by option_id;",
+        "select COUNT(*),answers.option_id,options.value from answers
+                INNER JOIN options on options.option_id = answers.option_id
+                AND options.poll_id = ? group by answers.option_id;",
         array($_GET['id'])
     );
 ?>
@@ -19,9 +20,8 @@ require templatePath() . "/partials/header.php";
                 <?php require templatePath() . "/partials/success.php"; ?>
                 <div class="block-flat">
                     <?php foreach($results as $result): ?>
-                    <?php echo ("ocorreu " . $result[0]. " ---->>>>". "opcao" . $result[1]);
+                    <?php echo ("ocorreu " . $result[0]. " // ". "opcao" . $result[1] . " // " . $result[2]);
                         ?>
-
                         <br>
                     <?php endforeach?>
 
