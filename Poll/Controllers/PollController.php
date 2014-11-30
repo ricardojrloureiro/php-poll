@@ -200,6 +200,15 @@ class PollController
             array($id)
         );
 
+        $db->query(
+        "delete from answers where option_id IN (SELECT option_id from options where poll_id=?);",
+        array($id)
+        );
+
+        $db->query(
+            "delete from options where poll_id =?;",
+            array($id)
+        );
         $user = new User;
         $userId = $user->getIdByUsername($_SESSION['username']);
 
