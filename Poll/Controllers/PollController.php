@@ -4,6 +4,7 @@ use Poll\Db;
 use Poll\Filters\HasVotedFilter;
 use Poll\Filters\LoggedInFilter;
 use Poll\Models\Poll;
+use Poll\Models\User;
 
 class PollController
 {
@@ -32,18 +33,17 @@ class PollController
 
     public function showPoll()
     {
-        $isLoggedIn =  new LoggedInFilter;
+        $isLoggedIn = new LoggedInFilter;
         $isLoggedIn->filter();
 
         $hasVoted = new HasVotedFilter;
         $result = $hasVoted->filter($_GET['id']);
 
-        if($result==true)
-        {
+        if ($result == true) {
             $_SESSION['success'] = array(
                 "Since you've already voted you've been redirected to the results."
             );
-            header("Location: index.php?page=showResult&id=".$_GET['id']);
+            header("Location: index.php?page=showResult&id=" . $_GET['id']);
             exit();
         }
 
@@ -56,6 +56,15 @@ class PollController
 
     public function showResult()
     {
+        $db = new \Poll\Db;
+
+        $results = $db->query(
+            "select COUNT(*),answers.option_id,options.value from answers
+                INNER JOIN options on options.option_id = answers.option_id
+                AND options.poll_id = ? group by answers.option_id;",
+            array($_GET['id'])
+        );
+
         require templatePath() . "/polls/results.php";
     }
 
@@ -71,7 +80,7 @@ class PollController
             'image' => $files['image']
         ]);
 
-        if(is_array($result)){
+        if (is_array($result)) {
             $_SESSION['errors'] = $result;
             header("Location: index.php?page=createPoll");
             exit();
@@ -92,8 +101,7 @@ class PollController
         $hasVoted = new HasVotedFilter;
         $result = $hasVoted->filter($id);
 
-        if($result==true)
-        {
+        if ($result == true) {
             $_SESSION['errors'] = array(
                 "You've already voted."
             );
@@ -102,16 +110,13 @@ class PollController
         }
 
         $poll = new Poll;
-        if( ! $poll->load($id))
-        {
+        if (!$poll->load($id)) {
             pageNotFound();
         }
 
 
-
-        if($optionsData == NULL)
-        {
-            header("Location: index.php?page=showPoll&id=".$id);
+        if ($optionsData == NULL) {
+            header("Location: index.php?page=showPoll&id=" . $id);
             $_SESSION['errors'] = array(
                 "Please choose at least one of the options below."
             );
@@ -120,9 +125,8 @@ class PollController
 
         $db = new Db;
 
-        if($poll->multiple)
-        {
-            $questionmarks = str_repeat("?,", count($optionsData['option'])-1) . "?";
+        if ($poll->multiple) {
+            $questionmarks = str_repeat("?,", count($optionsData['option']) - 1) . "?";
 
             $optionsWithId = $optionsData['option'];
             array_push($optionsWithId, $id);
@@ -131,15 +135,13 @@ class PollController
                 $optionsWithId
             );
             //one or more invalid selections were made
-            if($countValidOptions[0][0] != count($optionsData['option']))
-            {
+            if ($countValidOptions[0][0] != count($optionsData['option'])) {
                 pageNotFound();
             }
 
             $user_id = \Poll\Models\User::getIdByUsername($_SESSION['username']);
 
-            foreach($optionsData['option'] as $option)
-            {
+            foreach ($optionsData['option'] as $option) {
                 $db->save(
                     "INSERT INTO answers (user_id, option_id) VALUES(:user_id, :option_id)",
                     array(
@@ -160,12 +162,51 @@ class PollController
         }
 
 
-        header("Location: index.php?page=showResult&id=".$_GET['id']);
+        header("Location: index.php?page=showResult&id=" . $_GET['id']);
         $_SESSION['success'] = array(
             'Your answer has been saved.'
         );
         exit();
 
+    }
+
+
+    public function managePollsFromUser($id)
+    {
+        $isLoggedIn = new LoggedInFilter;
+        $isLoggedIn->filter();
+
+        $db = new Db;
+
+        $results = $db->query(
+            "Select * from Polls  where user_id = ?",
+            array($id)
+        );
+        require templatePath() . "/polls/modifyPolls.php";
+    }
+
+    public function deletePoll($id)
+    {
+
+        $isLoggedIn = new LoggedInFilter;
+        $isLoggedIn->filter();
+
+        $db = new Db;
+
+        //TODO adicionar duas querys para tambem remover as opcoes e as respostas da base de dados
+
+        $db->query(
+            "delete from polls where poll_id=?;",
+            array($id)
+        );
+
+        $user = new User;
+        $userId = $user->getIdByUsername($_SESSION['username']);
+
+        header("Location: index.php?page=modifyUser&id=" . $userId);
+        $_SESSION['success'] = array(
+            'The chosen poll has been deleted.'
+        );
     }
 
 }

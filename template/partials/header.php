@@ -17,6 +17,13 @@
         fjs.parentNode.insertBefore(js, fjs);
     }(document, 'script', 'facebook-jssdk'));</script>
 
+
+<?php
+if(isset($_SESSION['username'])):
+$user = new \Poll\Models\User;
+$result = $user->getIdByUsername($_SESSION['username']);
+endif;
+?> >
 <nav class="navbar navbar-fixed-top" role="navigation">
   <div class="container">
     <div class="navbar-header">
@@ -34,7 +41,8 @@
           <?php if(isset($_SESSION['username'])): ?>
               <li><a href="index.php?page=createPoll">New Poll</a></li>
               <li><a href="index.php?page=logout">Logout</a></li>
-              <li><a href="modify_user.php">Welcome, <?php echo $_SESSION['username'] ?></a></li>
+              <li><a href="index.php?page=modifyUser&id=<?= $result?> ">
+                      Welcome, <?php echo $_SESSION['username'] ?></a></li>
         <?php else: ?>
           <li><a href="index.php?page=login">Login</a></li>
           <li><a href="index.php?page=register">Register</a></li>

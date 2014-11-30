@@ -5,11 +5,12 @@ require templatePath() . "/partials/header.php";
 <div class="container">
     <div class="row">
         <div class="col-md-12">
+
+            <?php require templatePath() . "/partials/errors.php"; ?>
             <div class="block-flat">
                 <div class="row">
                     <div class="col-md-6 poll-div">
 
-                        <?php require templatePath() . "/partials/errors.php"; ?>
 
                         <form role="form"  action="index.php?page=createPoll" method="POST" enctype="multipart/form-data">
 

@@ -2,17 +2,6 @@
 require templatePath() . "/partials/header.php";
 ?>
 
-
-<?php
-    $db = new \Poll\Db;
-    $results = $db->query(
-        "select COUNT(*),answers.option_id,options.value from answers
-                INNER JOIN options on options.option_id = answers.option_id
-                AND options.poll_id = ? group by answers.option_id;",
-        array($_GET['id'])
-    );
-?>
-
     <div class="container">
         <div class="row">
 

@@ -42,6 +42,16 @@ if($httpMethod === "GET")
             $pollController->showResult();
             break;
 
+        case "modifyUser":
+            $pollController = new \Poll\Controllers\PollController;
+            $pollController->managePollsFromUser($_GET['id']);
+            break;
+
+        case "deletePoll":
+            $pollController = new \Poll\Controllers\PollController;
+            $pollController->deletePoll($_GET['id']);
+            break;
+
         default:
             $_SESSION['errors'] = array(
                 'Page not found.'

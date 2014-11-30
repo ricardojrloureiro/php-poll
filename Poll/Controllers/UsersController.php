@@ -67,7 +67,7 @@ class UsersController
 		if(empty($user))
 		{
             $_SESSION['errors'] = array('Incorrect username.');
-            header("Location: login.php");
+            header("Location: index.php?page=login");
             exit();
 		} else 
 		{
