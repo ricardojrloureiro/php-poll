@@ -74,7 +74,7 @@ class UsersController
 			$user = $user[0];
 		}
 
-		if(\password_verify($postData['password'], $user['password']))
+		if(password_verify($postData['password'], $user['password']))
         {
             $_SESSION['username'] = $user['username'];
             $_SESSION['success'] = array(
