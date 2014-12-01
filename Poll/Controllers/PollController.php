@@ -174,10 +174,11 @@ class PollController
     public function managePollsFromUser($id)
     {
         $isLoggedIn = new LoggedInFilter;
-        $isLoggedIn->filter();
+        $isLoggedIn->filterLoggedUser();
 
         $db = new Db;
 
+        //results being used in modifyPolls.php
         $results = $db->query(
             "Select * from Polls  where user_id = ?",
             array($id)
@@ -187,13 +188,11 @@ class PollController
 
     public function deletePoll($id)
     {
-
-        $isLoggedIn = new LoggedInFilter;
-        $isLoggedIn->filter();
+        //TODO add filters
+        $user = new User;
+        $userId = $user->getIdByUsername($_SESSION['username']);
 
         $db = new Db;
-
-        //TODO adicionar duas querys para tambem remover as opcoes e as respostas da base de dados
 
         $db->query(
             "delete from polls where poll_id=?;",
@@ -209,8 +208,6 @@ class PollController
             "delete from options where poll_id =?;",
             array($id)
         );
-        $user = new User;
-        $userId = $user->getIdByUsername($_SESSION['username']);
 
         header("Location: index.php?page=modifyUser&id=" . $userId);
         $_SESSION['success'] = array(
@@ -218,4 +215,60 @@ class PollController
         );
     }
 
+    public function editPollById($id)
+    {
+        //TODO add filters
+        $poll = new Poll;
+        $poll->load($id);
+
+        require templatePath() . "/polls/editPoll.php";
+    }
+
+    public function overWritePoll($id,$postData)
+    {
+        $db = new Db;
+        //Muda o titulo na tabela polls
+        $db->query(
+            "update Polls set title=? WHERE poll_id=?",
+          array(
+              $postData['title'],
+              $id
+          )
+        );
+        //apaga as respostas para as opções antigas
+         $db->query(
+             "delete from answers where option_id IN (select option_id from options where poll_id=?);",
+             array($id)
+         );
+
+        // Apaga opções antigas
+        $db->query(
+            "DELETE from options where poll_id= ?",
+            array($id)
+        );
+        // Insere as novas
+        foreach($postData['option'] as $option)
+        {
+            if($option!=="")
+            {
+                $db->query(
+                    "Insert INTO options(poll_id,value) VALUES(?,?)",
+                    array(
+                        $id,
+                        $option
+                    )
+                );v
+            }
+        }
+
+        $user = new User;
+        $userId = $user->getIdByUsername($_SESSION['username']);
+
+        header("Location: index.php?page=modifyUser&id=" . $userId);
+        $_SESSION['success'] = array(
+            'The poll has been edited.'
+        );
+
+
+    }
 }

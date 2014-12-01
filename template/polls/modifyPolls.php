@@ -20,7 +20,7 @@ require templatePath() . "/partials/header.php";
                     <?php $i = 1; foreach($results as $result):?>
                         <tr>
                             <td><?php echo $i; $i++ ?></td>
-                            <td><a href="index.php?page=modifyPoll&id=<?= $result[0] ?>"><?php echo $result[2] ?></a>
+                            <td><a href="index.php?page=showPoll&id=<?= $result[0] ?>"><?php echo $result[2] ?></a>
                               <button>
                                   <a href="index.php?page=deletePoll&id=<?= $result[0]?> " >
                                       apagar

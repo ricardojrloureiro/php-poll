@@ -17,7 +17,7 @@ class LoggedInFilter
         }
     }
 
-    public function filterById($id)
+    public function filterLoggedUser()
     {
         if(!isset($_SESSION['username']))
         {
@@ -31,8 +31,7 @@ class LoggedInFilter
         $user = new User;
         $currentId = $user->getIdByUsername($_SESSION['username']);
 
-
-        if($currentId !== $id)
+        if($currentId !== $_GET['id'])
         {
             $_SESSION['errors'] = array(
                 "You are only available to manage your own polls."

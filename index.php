@@ -52,6 +52,11 @@ if($httpMethod === "GET")
             $pollController->deletePoll($_GET['id']);
             break;
 
+        case "editPoll":
+            $pollController = new \Poll\Controllers\PollController;
+            $pollController->editPollById($_GET['id']);
+            break;
+
         default:
             $_SESSION['errors'] = array(
                 'Page not found.'
@@ -60,7 +65,6 @@ if($httpMethod === "GET")
             break;
     }
 }
-
 
 if($httpMethod === "POST")
 {
@@ -83,6 +87,15 @@ if($httpMethod === "POST")
         case "showPoll":
             $pollController = new \Poll\Controllers\PollController;
             $pollController->vote($_GET['id'], $_POST);
+            break;
+
+        case "overWritePoll":
+            $pollController = new \Poll\Controllers\PollController;
+            $pollController->overWritePoll($_GET['id'],$_POST);
+            break;
+
+        default:
+            //TODO very default clause
             break;
     }
 }
