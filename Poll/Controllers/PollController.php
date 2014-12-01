@@ -257,7 +257,7 @@ class PollController
                         $id,
                         $option
                     )
-                );v
+                );
             }
         }
 
