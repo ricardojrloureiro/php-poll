@@ -37,15 +37,7 @@ class PollController
         $isLoggedIn->filter();
 
         $hasVoted = new HasVotedFilter;
-        $result = $hasVoted->filter($_GET['id']);
-
-        if ($result == true) {
-            $_SESSION['success'] = array(
-                "Since you've already voted you've been redirected to the results."
-            );
-            header("Location: index.php?page=showResult&id=" . $_GET['id']);
-            exit();
-        }
+        $hasVoted->filter($_GET['id'], true);
 
         $poll = new Poll;
         if (!$poll->load($_GET['id'])) {
@@ -58,12 +50,42 @@ class PollController
     {
         $db = new \Poll\Db;
 
-        $results = $db->query(
-            "select COUNT(*),answers.option_id,options.value from answers
+        $answers = $db->query(
+            "SELECT COUNT(*) as answersCount,answers.option_id,options.value from answers
                 INNER JOIN options on options.option_id = answers.option_id
                 AND options.poll_id = ? group by answers.option_id;",
             array($_GET['id'])
         );
+
+        $answers = array_column($answers, "answersCount", "option_id");
+
+        $allPollOptions = $db->query(
+            "SELECT * FROM options WHERE poll_id = :poll_id",
+            array($_GET['id'])
+        );
+
+        $jsonArray = array();
+
+        $jsonArray[] = array("Answers", "Answers count");
+
+        foreach($allPollOptions as &$option)
+        {
+            if(array_key_exists($option['option_id'], $answers))
+            {
+                $option['count'] = (int) $answers[$option['option_id']];
+            } else {
+                $option['count'] = 0;
+            }
+
+            $jsonArray[] = array($option['value'], $option['count']);
+        }
+
+        $jsonArray = json_encode($jsonArray);
+
+        foreach($allPollOptions as $option)
+
+        $poll = new Poll;
+        $poll->load($_GET['id']);
 
         require templatePath() . "/polls/results.php";
     }
@@ -99,15 +121,7 @@ class PollController
         $isLoggedIn->filter();
 
         $hasVoted = new HasVotedFilter;
-        $result = $hasVoted->filter($id);
-
-        if ($result == true) {
-            $_SESSION['errors'] = array(
-                "You've already voted."
-            );
-            header("Location: index.php");
-            exit();
-        }
+        $result = $hasVoted->filter($id, false);
 
         $poll = new Poll;
         if (!$poll->load($id)) {
@@ -217,7 +231,9 @@ class PollController
 
     public function editPollById($id)
     {
-        //TODO add filters
+        $belongsToUserFilter = new \Poll\Filters\BelongsToUserFilter;
+        $belongsToUserFilter->filter($id);
+
         $poll = new Poll;
         $poll->load($id);
 
@@ -228,10 +244,27 @@ class PollController
     {
         $db = new Db;
         //Muda o titulo na tabela polls
+
+        if($postData['public'] == "on")
+        {
+            $postData['public'] = 1;
+        } else {
+            $postData['public'] = 0;
+        }
+
+        if($postData['multiple'] == "on")
+        {
+            $postData['multiple'] = 1;
+        } else {
+            $postData['multiple'] = 0;
+        }
+
         $db->query(
-            "update Polls set title=? WHERE poll_id=?",
+            "update Polls set title=?, public=?, multiple=? WHERE poll_id=?",
           array(
               $postData['title'],
+              $postData['public'],
+              $postData['multiple'],
               $id
           )
         );

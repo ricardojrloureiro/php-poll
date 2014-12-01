@@ -3,8 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="css/font-awesome.min.css">
 <link rel="stylesheet" type="text/css" href="css/style.css">
 <title>Poll</title>
+<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+<script type="text/javascript">
+    google.load("visualization", "1", {packages:["corechart"]});
+</script>
 </head>
 
 <body>
@@ -39,10 +44,13 @@ endif;
       <ul class="nav navbar-nav">
 
           <?php if(isset($_SESSION['username'])): ?>
+              <li>
+                  <a href="index.php?page=modifyUser&id=<?= $result?>">
+                      Welcome, <?php echo $_SESSION['username'] ?>
+                  </a>
+              </li>
               <li><a href="index.php?page=createPoll">New Poll</a></li>
               <li><a href="index.php?page=logout">Logout</a></li>
-              <li><a href="index.php?page=modifyUser&id=<?= $result?> ">
-                      Welcome, <?php echo $_SESSION['username'] ?></a></li>
         <?php else: ?>
           <li><a href="index.php?page=login">Login</a></li>
           <li><a href="index.php?page=register">Register</a></li>

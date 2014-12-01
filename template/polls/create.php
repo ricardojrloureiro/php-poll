@@ -9,10 +9,9 @@ require templatePath() . "/partials/header.php";
             <?php require templatePath() . "/partials/errors.php"; ?>
             <div class="block-flat">
                 <div class="row">
-                    <div class="col-md-6 poll-div">
+                    <div class="col-md-6">
 
-
-                        <form role="form"  action="index.php?page=createPoll" method="POST" enctype="multipart/form-data">
+                        <form role="form" action="index.php?page=createPoll" method="POST" enctype="multipart/form-data">
 
                             <div class="form-group">
                                 <input type="text" class="form-control" name="title"
@@ -49,6 +48,9 @@ require templatePath() . "/partials/header.php";
                             </div>
                             <button type="submit" class="btn btn-default poll-btn">Create</button>
                         </form>
+                    </div>
+                    <div class="col-md-6">
+                        <img id="imagePreview" src="#" style="display:none;" width="500">
                     </div>
                 </div>
             </div>

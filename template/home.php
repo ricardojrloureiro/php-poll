@@ -22,7 +22,7 @@ require __DIR__ . "/partials/header.php"; ?>
                                 <?php $i = 1; foreach($_SESSION['polls'] as $poll):?>
                                     <tr>
                                         <td><?php echo $i; $i++ ?></td>
-                                        <td><a href="index.php?page=showPoll&id= <?= $poll['poll_id'] ?>"><?php echo $poll['title'] ?></a></td>
+                                        <td><a href="index.php?page=showPoll&id=<?= $poll['poll_id'] ?>"><?php echo $poll['title'] ?></a></td>
                                     </tr>
                                 <?php endforeach; ?>
                             </tbody>
