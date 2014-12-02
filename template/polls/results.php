@@ -5,17 +5,16 @@ require templatePath() . "/partials/header.php";
     <script>
         google.setOnLoadCallback(drawChart);
         function drawChart() {
+            var data = google.visualization.arrayToDataTable(
+                <?= $jsonArray ?>
+            );
 
-        var data = google.visualization.arrayToDataTable(
-            <?= $jsonArray ?>
-        );
+            var options = {
+            };
 
-        var options = {
-        };
+            var chart = new google.visualization.PieChart(document.getElementById('piechart'));
 
-        var chart = new google.visualization.PieChart(document.getElementById('piechart'));
-
-        chart.draw(data, options);
+            chart.draw(data, options);
         }
     </script>
     <div class="container">

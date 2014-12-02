@@ -73,6 +73,8 @@ if($httpMethod === "GET")
 
 if($httpMethod === "POST")
 {
+    $_POST = sanitizeArray($_POST);
+
     switch($requestedPage) {
         case "register":
             $usersController = new \Poll\Controllers\UsersController;
