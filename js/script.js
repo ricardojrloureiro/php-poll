@@ -1,10 +1,16 @@
 $( document ).ready(function() {
 
 
-	$('body').on('change', '#poll-options input:last', function() {
-		var e = $('<div class="form-group"> <input type="text" class="form-control" name="option[]" id="optionid[]" placeholder="Insert answer option"> </div>');
-		$('#poll-options').append(e);
-	});
+    $('body').on('change', '#poll-options input:last', function() {
+        var e = $('<div class="form-group" > <input type="text" class="form-control" name="option[]" id="optionid[]" placeholder="Insert answer option"><button type="button" id="removable" class="buttRemove">Remove</button></div>');
+        $('#poll-options').append(e);
+
+        $('.buttRemove').off('click').on('click', function (ev){ 
+             ev.preventDefault();    
+            $(ev.target).parent().remove();
+        });
+
+    });
 
     //triggered when delete modal is about to be shown
     $('#deletePollModal').on('show.bs.modal', function(e) {
