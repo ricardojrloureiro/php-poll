@@ -88,4 +88,22 @@ class UsersController
             exit();
         }
 	}
+
+    public function availableUsername($username)
+    {
+        $db = new Db;
+
+        $user = $db->query(
+            "SELECT * FROM users WHERE username = ?",
+            array($username)
+        );
+
+        if(empty($user))
+        {
+            echo json_encode(array("valid" => true));
+        } else {
+            echo json_encode(array("valid" => false));
+        }
+
+    }
 }

@@ -8,6 +8,15 @@ class HasVotedFilter {
 
     public function filter($poll_id, $redirect)
     {
+        if( ! isset($_SESSION['username']))
+        {
+            $_SESSION['errors'] = array(
+                "You must login first."
+            );
+            header("Location: index.php");
+            exit();
+        }
+
         $user_id = User::getIdByUsername($_SESSION['username']);
 
         $db = new Db;

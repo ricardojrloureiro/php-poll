@@ -9,7 +9,7 @@ require templatePath() . "/partials/header.php";
             <?php include __DIR__ . "/../partials/success.php"; ?>
             <div class="block-flat">
                 <div class="row">
-                    <div class="col-md-4 poll-div">
+                    <div class="col-md-6 poll-div">
                         <h1><?= $poll->title ?></h1>
                         <form role="form" action="index.php?page=showPoll&id=<?= $poll->id ?>" method="POST">
                             <?php foreach($poll->options as $option): ?>
@@ -30,7 +30,7 @@ require templatePath() . "/partials/header.php";
                             <input type="submit" value="Vote" class="btn btn-default">
                         </form>
                     </div>
-                    <div class="col-md-4 col-md-offset-4">
+                    <div class="col-md-6" >
                         <img src="uploads/<?= $poll->image; ?>" width="500" />
                         <br />
                     </div>

@@ -29,4 +29,19 @@ $( document ).ready(function() {
         readURL(this);
     });
 
+    $("#usernameRegister").change(function() {
+        $.getJSON("http://ltw.app:8000/index.php?page=availableUsername&username=" + $("#usernameRegister").val(),
+            function(data) {
+                if(! data.valid)
+                {
+                    $("#usernameRegister").css({"background-color": "rgb(255,50,50)", "color": "#FFF"});
+                    $("#registerButton").attr("disabled", true);
+                } else {
+                    $("#usernameRegister").css({"background-color": "rgb(255,255,255)", "color": "#000"});
+                    $("#registerButton").attr("disabled", false);
+                }
+        }
+        );
+    });
+
 });

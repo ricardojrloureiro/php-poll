@@ -57,6 +57,11 @@ if($httpMethod === "GET")
             $pollController->editPollById($_GET['id']);
             break;
 
+        case "availableUsername":
+            $usersController = new \Poll\Controllers\UsersController;
+            $usersController->availableUsername($_GET['username']);
+            break;
+
         default:
             $_SESSION['errors'] = array(
                 'Page not found.'
@@ -95,7 +100,10 @@ if($httpMethod === "POST")
             break;
 
         default:
-            //TODO very default clause
+            $_SESSION['errors'] = array(
+                'Page not found.'
+            );
+            header("Location: index.php");
             break;
     }
 }

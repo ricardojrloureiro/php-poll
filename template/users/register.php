@@ -11,7 +11,7 @@ require templatePath() . "/partials/header.php"; ?>
             <form role="form" action="index.php?page=register" method="POST">
               <div class="form-group">
                 <label for="username">Username</label>
-                <input type="text" class="form-control" name="username" id="username" placeholder="Enter username">
+                <input type="text" class="form-control" name="username" id="usernameRegister" placeholder="Enter username">
               </div>
               <div class="form-group">
                 <label for="password">Password</label>
@@ -21,7 +21,7 @@ require templatePath() . "/partials/header.php"; ?>
                 <label for="password_confirmation">Confirm password</label>
                 <input type="password" class="form-control" name="password_confirmation" id="password_confirmation" placeholder="Confirm password">
               </div>
-              <button type="submit" class="btn btn-default">Register</button>
+              <button type="submit" id="registerButton" class="btn btn-default">Register</button>
             </form>
           </div>
         </div>

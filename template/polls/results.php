@@ -24,12 +24,14 @@ require templatePath() . "/partials/header.php";
             <div class="col-md-12">
                 <?php require templatePath() . "/partials/success.php"; ?>
                 <div class="block-flat">
-                    <h1><?= $poll->title ?> results</h1>
-                    <div id="piechart" style="width: 900px; height: 500px;"></div>
-
                     <div class="row">
-                        <div class="col-md-4 poll-div">
-
+                        <div class="col-md-6 poll-div">
+                            <h1><?= $poll->title ?> results</h1>
+                            <div id="piechart" style="height: 500px;"></div>
+                        </div>
+                        <div class="col-md-6" >
+                            <img src="uploads/<?= $poll->image; ?>" width="500" />
+                            <br />
                         </div>
                     </div>
                 </div>
