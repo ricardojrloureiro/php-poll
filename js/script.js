@@ -1,3 +1,7 @@
+function endsWith(str, suffix) {
+    return str.indexOf(suffix, str.length - suffix.length) !== -1;
+}
+
 $( document ).ready(function() {
 
 
@@ -23,8 +27,24 @@ $( document ).ready(function() {
         if (input.files && input.files[0]) {
             var reader = new FileReader();
 
+
             reader.onload = function (e) {
-                $('#imagePreview').attr('src', e.target.result).fadeIn(300);
+               if(endsWith(e.target.result,".webm") )
+                {
+                    $('#imagePreview').parent().append('<video width="500" id="imagePreview" controls><source src="' + e.target.result + '" type="video/webm"></video>');
+                }
+                else if(endsWith(e.target.result,".ogg") )
+                {
+                    $('#imagePreview').append('<video width="500" id="imagePreview" controls><source src="' + e.target.result + '" type="video/ogg"></video>');
+                }
+                else if(endsWith(e.target.result,".mp4") )
+                {
+                  $('#imagePreview').append('<video width="500" id="imagePreview" controls><source src="' + e.target.result + '" type="video/mp4"></video>');
+                }
+                else
+                {
+                     $('#imagePreview').replaceWith('<img id="imagePreview" src="' + e.target.result + '"  width="500">');
+                }
             }
 
             reader.readAsDataURL(input.files[0]);

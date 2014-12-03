@@ -15,7 +15,11 @@ class Image {
 
         $imageSize = getimagesize($this->image["tmp_name"]);
 
-        if($imageSize !== false) {
+        if($imageSize !== false 
+            || endsWith($this->image["name"],".mp4")
+            || endsWith($this->image["name"],".ogg")
+            || endsWith($this->image["name"],".webm")
+            ) {
             $validImage = true;
         } else {
             $validImage = false;

@@ -1,5 +1,7 @@
 <?php
 require templatePath() . "/partials/header.php";
+
+
 ?>
 
 <div class="container">
@@ -31,7 +33,22 @@ require templatePath() . "/partials/header.php";
                         </form>
                     </div>
                     <div class="col-md-6" >
+                        <? if( endsWith($poll->image,".mp4")){ ?>
+                            <video width="500" controls>
+                              <source src="uploads/<?= $poll->image; ?>" type="video/mp4">
+                            </video>
+                        <? }else if(endsWith($poll->image,".webm") ){ ?>
+                            <video width="500" controls>
+                              <source src="uploads/<?= $poll->image; ?>" type="video/webm">
+                            </video>
+                        <? }else if( endsWith($poll->image,".ogg") ){ ?>
+                            <video width="500" controls>
+                              <source src="uploads/<?= $poll->image; ?>" type="video/ogg">
+                            </video>
+                        <? }else{ ?>
                         <img src="uploads/<?= $poll->image; ?>" width="500" />
+
+                       <? } ?>
                         <br />
                     </div>
                 </div>

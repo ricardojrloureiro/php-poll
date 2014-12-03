@@ -24,3 +24,8 @@ function sanitizeArray($array)
 
     return $array;
 }
+
+function endsWith($haystack, $needle) {
+    // search forward starting from end minus needle length characters
+    return $needle === "" || strpos($haystack, $needle, strlen($haystack) - strlen($needle)) !== FALSE;
+}
