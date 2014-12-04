@@ -57,7 +57,6 @@ class Paginator {
         $html = '<ul class="' . $list_class . '">';
 
         $class = ($this->page == 1) ? "disabled" : "";
-        $html .= '<li class="' . $class . '"><a href="?limit=' . $this->limit . '&position=' . ($this->page - 1) . '">&laquo;</a></li>';
 
         if ($start > 1) {
             $html .= '<li><a href="?limit=' . $this->limit . '&position=1">1</a></li>';
@@ -75,7 +74,9 @@ class Paginator {
         }
 
         $class = ($this->page == $last) ? "disabled" : "";
-        $html .= '<li class="' . $class . '"><a href="?limit=' . $this->limit . '&position=' . ($this->page + 1) . '">&raquo;</a></li>';
+
+        if($end == 1 && $last == 1)
+            return "";
 
         $html .= '</ul>';
 
