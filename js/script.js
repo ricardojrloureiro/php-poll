@@ -1,7 +1,3 @@
-function endsWith(str, suffix) {
-    return str.indexOf(suffix, str.length - suffix.length) !== -1;
-}
-
 $( document ).ready(function() {
 
 
@@ -29,17 +25,18 @@ $( document ).ready(function() {
 
 
             reader.onload = function (e) {
-               if(endsWith(e.target.result,".webm") )
+                var str = e.target.result + "";
+                if ( str.match("^data:video/webm")) 
                 {
-                    $('#imagePreview').parent().append('<video width="500" id="imagePreview" controls><source src="' + e.target.result + '" type="video/webm"></video>');
+                    $('#imagePreview').replaceWith('<video width="500" id="imagePreview" controls><source src="' + e.target.result + '" type="video/webm"></video>');
                 }
-                else if(endsWith(e.target.result,".ogg") )
+                else if(str.match("^data:video/ogg"))
                 {
-                    $('#imagePreview').append('<video width="500" id="imagePreview" controls><source src="' + e.target.result + '" type="video/ogg"></video>');
+                    $('#imagePreview').replaceWith('<video width="500" id="imagePreview" controls><source src="' + e.target.result + '" type="video/ogg"></video>');
                 }
-                else if(endsWith(e.target.result,".mp4") )
+                else if(str.match("^data:video/mp4") )
                 {
-                  $('#imagePreview').append('<video width="500" id="imagePreview" controls><source src="' + e.target.result + '" type="video/mp4"></video>');
+                  $('#imagePreview').replaceWith('<video width="500" id="imagePreview" controls><source src="' + e.target.result + '" type="video/mp4"></video>');
                 }
                 else
                 {
