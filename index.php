@@ -9,7 +9,7 @@ if($httpMethod === "GET")
     switch($requestedPage) {
         case "index":
             $pollController = new \Poll\Controllers\PollController;
-            $pollController->index();
+            $pollController->index($_GET);
             break;
 
         case "register":

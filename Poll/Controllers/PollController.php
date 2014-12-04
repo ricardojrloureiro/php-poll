@@ -5,20 +5,23 @@ use Poll\Filters\HasVotedFilter;
 use Poll\Filters\LoggedInFilter;
 use Poll\Models\Poll;
 use Poll\Models\User;
+use Poll\Paginator;
 
 class PollController
 {
 
-    public function index()
+    public function index($paginationData)
     {
-        $db = new Db;
+        $paginator = new Paginator("SELECT * FROM POLLS WHERE public=1");
 
-        $results = $db->query(
-            "SELECT * FROM polls",
-            array()
-        );
 
-        $_SESSION['polls'] = $results;
+        //setting a default limit (10) and page (1)
+        $paginationData['limit'] = (! isset($paginationData['limit'])) ? 10 : $paginationData['limit'];
+        $paginationData['position'] = (! isset($paginationData['position'])) ? 1 : $paginationData['position'];
+
+        $results = $paginator->getData($paginationData['limit'], $paginationData['position']);
+
+        $paginationLinks = $paginator->createLinks(5, 'pagination pagination-sm');
 
         require templatePath() . "/home.php";
     }
