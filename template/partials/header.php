@@ -60,7 +60,7 @@ endif;
       <ul class="nav navbar-nav navbar-right">
       <form class="navbar-form navbar-left" role="search">
         <div class="form-group">
-          <input id="search" type="text" class="form-control" placeholder="Search polls">
+          <input id="search" type="text" class="typeahead form-control" placeholder="Search polls">
         </div>
       </form>
       </ul>
