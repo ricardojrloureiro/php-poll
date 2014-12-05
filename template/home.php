@@ -9,7 +9,7 @@ require __DIR__ . "/partials/header.php"; ?>
                 <?php include __DIR__ . "/partials/errors.php"; ?>
                 <div class="block-flat">
                     <?php if(count($results->data) == 0): ?>
-                        No polls yet.
+                        No polls were found.
                     <?php else: ?>
                         <table class="table">
                             <thead>

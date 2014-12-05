@@ -58,9 +58,11 @@ endif;
         
       </ul>
       <ul class="nav navbar-nav navbar-right">
-      <form class="navbar-form navbar-left" role="search">
+      <form action="index.php" class="navbar-form navbar-left" role="search" method="GET">
         <div class="form-group">
-          <input id="search" type="text" class="typeahead form-control" placeholder="Search polls">
+            <input type="hidden" name="page" value="search" />
+          <input id="search" name="query" type="text" class="typeahead form-control" placeholder="Search polls" />
+          <input type="submit" style="position: absolute; left: -9999px; width: 1px; height: 1px;"/>
         </div>
       </form>
       </ul>

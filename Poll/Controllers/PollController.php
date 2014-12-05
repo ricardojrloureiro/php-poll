@@ -48,21 +48,19 @@ class PollController
 
     public function search($query)
     {
-        $db = new Db;
+        $paginator = new Paginator("SELECT * FROM polls WHERE title LIKE :query",
+            array('query' => '%' . $query . '%'));
 
-        $searchResults = $db->query(
-            "SELECT * FROM polls WHERE title LIKE :query",
-            array('query' => '%' . $query . '%')
-        );
+        //setting a default limit (10) and page (1)
+        $paginationData['limit'] = (! isset($paginationData['limit'])) ? 10 : $paginationData['limit'];
+        $paginationData['position'] = (! isset($paginationData['position'])) ? 1 : $paginationData['position'];
 
-        $normalizedResults = [];
+        $results = $paginator->getData($paginationData['limit'], $paginationData['position']);
 
-        foreach($searchResults as $result)
-        {
-            $normalizedResults[] = array(
-                $result['poll_id'] => $result['title']
-            );
-        }
+        $paginationLinks = $paginator->createLinks(5, 'pagination pagination-sm');
+
+        require templatePath() . "/home.php";
+
     }
 
     public function showCreate()
