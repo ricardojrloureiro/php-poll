@@ -47,6 +47,25 @@ class PollController
         echo json_encode($normalizedResults);
     }
 
+    public function search($query)
+    {
+        $db = new Db;
+
+        $searchResults = $db->query(
+            "SELECT * FROM polls WHERE title LIKE :query",
+            array('query' => '%' . $query . '%')
+        );
+
+        $normalizedResults = [];
+
+        foreach($searchResults as $result)
+        {
+            $normalizedResults[] = array(
+                $result['poll_id'] => $result['title']
+            );
+        }
+    }
+
     public function showCreate()
     {
         $isLoggedIn = new LoggedInFilter;
