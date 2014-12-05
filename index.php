@@ -67,6 +67,11 @@ if($httpMethod === "GET")
             $pollController->searchApi($_GET['query']);
             break;
 
+        case "search":
+            $pollController = new \Poll\Controllers\PollController;
+            $pollController->search($_GET['query']);
+            break;
+
         default:
             $_SESSION['errors'] = array(
                 'Page not found.'

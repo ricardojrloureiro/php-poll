@@ -46,6 +46,22 @@ class PollController
         echo json_encode($normalizedResults);
     }
 
+    public function search($query)
+    {
+        $paginator = new Paginator("SELECT * FROM polls WHERE title LIKE :query",
+            array('query' => '%' . $query . '%'));
+
+        //setting a default limit (10) and page (1)
+        $paginationData['limit'] = (! isset($paginationData['limit'])) ? 10 : $paginationData['limit'];
+        $paginationData['position'] = (! isset($paginationData['position'])) ? 1 : $paginationData['position'];
+
+        $results = $paginator->getData($paginationData['limit'], $paginationData['position']);
+
+        $paginationLinks = $paginator->createLinks(5, 'pagination pagination-sm');
+
+        require templatePath() . "/home.php";
+    }
+
     public function showCreate()
     {
         $isLoggedIn = new LoggedInFilter;

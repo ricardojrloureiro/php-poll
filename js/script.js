@@ -1,5 +1,6 @@
 $( document ).ready(function() {
 
+    var BASE_URL = "http://ltw.app:8000/";
 
     $('body').on('change', '#poll-options input:last', function() {
         var e = $('<div class="form-group" > <input type="text" class="form-control" name="option[]" id="optionid[]" placeholder="Insert answer option"><button type="button" id="removable" class="buttRemove">Remove</button></div>');
@@ -53,7 +54,7 @@ $( document ).ready(function() {
     });
 
     $("#usernameRegister").change(function() {
-        $.getJSON("http://ltw.app:8000/index.php?page=availableUsername&username=" + $("#usernameRegister").val(),
+        $.getJSON(BASE_URL + "index.php?page=availableUsername&username=" + $("#usernameRegister").val(),
             function(data) {
                 if(! data.valid)
                 {
@@ -65,6 +66,19 @@ $( document ).ready(function() {
                 }
         }
         );
+    });
+
+    var searchResults = new Bloodhound({
+        datumTokenizer: Bloodhound.tokenizers.obj.whitespace('value'),
+        queryTokenizer: Bloodhound.tokenizers.whitespace,
+        remote: BASE_URL + 'index.php?page=searchApi&query=%QUERY'
+    });
+
+    searchResults.initialize();
+
+    $('#search').typeahead(null, {
+        displayKey: 'value',
+        source: searchResults.ttAdapter()
     });
 
 });
