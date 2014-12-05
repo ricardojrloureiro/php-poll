@@ -33,22 +33,22 @@ require templatePath() . "/partials/header.php";
                         </form>
                     </div>
                     <div class="col-md-6" >
-                        <? if( endsWith($poll->image,".mp4")){ ?>
+                        <?php if( endsWith($poll->image,".mp4")): ?>
                             <video width="500" controls>
-                              <source src="uploads/<?= $poll->image; ?>" type="video/mp4">
+                                <source src="uploads/<?= $poll->image; ?>" type="video/mp4">
                             </video>
-                        <? }else if(endsWith($poll->image,".webm") ){ ?>
+                        <?php elseif(endsWith($poll->image,".webm") ): ?>
                             <video width="500" controls>
-                              <source src="uploads/<?= $poll->image; ?>" type="video/webm">
+                                <source src="uploads/<?= $poll->image; ?>" type="video/webm">
                             </video>
-                        <? }else if( endsWith($poll->image,".ogg") ){ ?>
+                        <?php elseif( endsWith($poll->image,".ogg") ): ?>
                             <video width="500" controls>
-                              <source src="uploads/<?= $poll->image; ?>" type="video/ogg">
+                                <source src="uploads/<?= $poll->image; ?>" type="video/ogg">
                             </video>
-                        <? }else{ ?>
-                        <img src="uploads/<?= $poll->image; ?>" width="500" />
+                        <?php else: ?>
+                            <img src="uploads/<?= $poll->image; ?>" width="500" />
 
-                       <? } ?>
+                        <?php endif; ?>
                         <br />
                     </div>
                 </div>

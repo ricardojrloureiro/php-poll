@@ -30,7 +30,7 @@ class PollController
         $db = new Db;
 
         $searchResults = $db->query(
-            "SELECT title FROM polls WHERE title LIKE :query",
+            "SELECT title FROM polls WHERE title LIKE :query AND public=1",
             array('query' => '%' . $query . '%')
         );
 
@@ -48,7 +48,7 @@ class PollController
 
     public function search($query)
     {
-        $paginator = new Paginator("SELECT * FROM polls WHERE title LIKE :query",
+        $paginator = new Paginator("SELECT * FROM polls WHERE title LIKE :query AND public=1",
             array('query' => '%' . $query . '%'));
 
         //setting a default limit (10) and page (1)
