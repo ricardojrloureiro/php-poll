@@ -26,6 +26,25 @@ class PollController
         require templatePath() . "/home.php";
     }
 
+    public function searchApi($query)
+    {
+        $db = new Db;
+
+        $searchResults = $db->query(
+            "SELECT title FROM polls WHERE title LIKE :query",
+            array('query' => '%' . $query . '%')
+        );
+
+        $normalizedResults = [];
+
+        foreach($searchResults as $result)
+        {
+            $normalizedResults[] = $result['title'];
+        }
+
+        echo json_encode($normalizedResults);
+    }
+
     public function showCreate()
     {
         $isLoggedIn = new LoggedInFilter;
