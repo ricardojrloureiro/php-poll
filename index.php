@@ -108,7 +108,7 @@ if($httpMethod === "POST")
 
         case "overWritePoll":
             $pollController = new \Poll\Controllers\PollController;
-            $pollController->overWritePoll($_GET['id'],$_POST);
+            $pollController->overWritePoll($_GET['id'],$_POST,$_FILES);
             break;
 
         default:

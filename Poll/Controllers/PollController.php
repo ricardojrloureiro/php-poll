@@ -6,6 +6,7 @@ use Poll\Filters\LoggedInFilter;
 use Poll\Models\Poll;
 use Poll\Models\User;
 use Poll\Paginator;
+use Poll\Models\Image;
 
 class PollController
 {
@@ -279,10 +280,12 @@ class PollController
         require templatePath() . "/polls/editPoll.php";
     }
 
-    public function overWritePoll($id,$postData)
+    public function overWritePoll($id,$postData,$files)
     {
         $db = new Db;
         //Muda o titulo na tabela polls
+
+        $img = new Image($files['image']);
 
         if($postData['public'] == "on")
         {
@@ -298,15 +301,27 @@ class PollController
             $postData['multiple'] = 0;
         }
 
+        if($img->validate())
+            $imgName = $img->save();
+        else 
+        {
+            $_SESSION['errors'] = array('Invalid Image');
+         
+            header( "Location: index.php?page=editPoll&id=".$id);
+            exit();
+        }
+        
         $db->query(
-            "update Polls set title=?, public=?, multiple=? WHERE poll_id=?",
+            "update Polls set title=?, public=?, multiple=?, image=? WHERE poll_id=?",
           array(
               $postData['title'],
               $postData['public'],
               $postData['multiple'],
+              $imgName,
               $id
           )
         );
+
         //apaga as respostas para as opções antigas
          $db->query(
              "delete from answers where option_id IN (select option_id from options where poll_id=?);",

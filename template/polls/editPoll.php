@@ -64,7 +64,7 @@ require templatePath() . "/partials/header.php";
                         </form>
                     </div>
                      <div class="col-md-6">
-                        <?php if( endsWith($poll->image,".mp4")): ?>
+                         <?php if( endsWith($poll->image,".mp4")): ?>
                             <video width="500" controls>
                                 <source src="uploads/<?= $poll->image; ?>" type="video/mp4">
                             </video>
