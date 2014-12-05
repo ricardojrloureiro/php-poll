@@ -60,7 +60,6 @@ class PollController
         $paginationLinks = $paginator->createLinks(5, 'pagination pagination-sm');
 
         require templatePath() . "/home.php";
-
     }
 
     public function showCreate()
