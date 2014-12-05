@@ -29,22 +29,22 @@ require templatePath() . "/partials/header.php";
                             <div id="piechart" style="height: 500px;"></div>
                         </div>
                         <div class="col-md-6" >
-                             <? if( endsWith($poll->image,".mp4")){ ?>
+                        <?php if( endsWith($poll->image,".mp4")): ?>
                             <video width="500" controls>
                               <source src="uploads/<?= $poll->image; ?>" type="video/mp4">
                             </video>
-                        <? }else if(endsWith($poll->image,".webm") ){ ?>
+                        <?php elseif(endsWith($poll->image,".webm") ): ?>
                             <video width="500" controls>
                               <source src="uploads/<?= $poll->image; ?>" type="video/webm">
                             </video>
-                        <? }else if( endsWith($poll->image,".ogg") ){ ?>
+                        <?php elseif( endsWith($poll->image,".ogg") ): ?>
                             <video width="500" controls>
                               <source src="uploads/<?= $poll->image; ?>" type="video/ogg">
                             </video>
-                        <? }else{ ?>
+                        <?php else: ?>
                         <img src="uploads/<?= $poll->image; ?>" width="500" />
 
-                       <? } ?>
+                       <?php endif; ?>
                             <br />
                         </div>
                     </div>
