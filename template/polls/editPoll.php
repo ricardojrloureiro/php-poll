@@ -30,7 +30,8 @@ require templatePath() . "/partials/header.php";
 
                             <div class="checkbox">
                                 <label>
-                                <?php if($poll->multiple): ?>
+                                <?php
+                                  if($poll->multiple): ?>
                                 <input type="checkbox" name="multiple" checked>
                                 <?php else:?>
                                 <input type="checkbox" name="multiple">
@@ -43,7 +44,7 @@ require templatePath() . "/partials/header.php";
 
                             <div class="form-group">
                                 Poll Image
-                                <input type="file" id="image" name="image">
+                                <input type="file" value="<?= $poll->image; ?>"  id="image" name="image">
                             </div>
 
                             <div id="poll-options">
@@ -62,6 +63,8 @@ require templatePath() . "/partials/header.php";
                             <button type="submit" class="btn btn-default poll-btn">Edit Poll</button>
                         </form>
                     </div>
+                     <div class="col-md-6">
+                        <img id="imagePreview" src="uploads/<?= $poll->image; ?>"  width="500">
                 </div>
             </div>
         </div>
