@@ -12,8 +12,7 @@ class PollController
 
     public function index($paginationData)
     {
-        $paginator = new Paginator("SELECT * FROM POLLS WHERE public=1");
-
+        $paginator = new Paginator("SELECT * FROM POLLS WHERE public=1", []);
 
         //setting a default limit (10) and page (1)
         $paginationData['limit'] = (! isset($paginationData['limit'])) ? 10 : $paginationData['limit'];
