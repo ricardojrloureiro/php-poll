@@ -39,7 +39,9 @@ class PollController
 
         foreach($searchResults as $result)
         {
-            $normalizedResults[] = $result['title'];
+            $normalizedResults[] = array(
+                'value' => $result['title']
+            );
         }
 
         echo json_encode($normalizedResults);
