@@ -8,15 +8,17 @@ class Paginator {
     private $query;
     private $page;
     private $total;
+    private $queryParameters;
 
     protected $db;
 
-    function __construct($query)
+    function __construct($query, $queryParameters)
     {
         $this->query = $query;
+        $this->queryParameters = $queryParameters;
 
         $this->db = new Db;
-        $this->db->query($this->query, []);
+        $this->db->query($this->query, $this->queryParameters);
 
         $this->total = $this->db->getNumRows();
     }
@@ -32,7 +34,7 @@ class Paginator {
             $query = $this->query . " LIMIT " . ( ( $this->page - 1 ) * $this->limit ) . ", $this->limit";
         }
 
-        $results = $this->db->query($query, []);
+        $results = $this->db->query($query, $this->queryParameters);
 
         $result         = new stdClass();
         $result->page   = $this->page;
