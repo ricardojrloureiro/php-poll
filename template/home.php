@@ -8,7 +8,7 @@ require __DIR__ . "/partials/header.php"; ?>
                 <?php include __DIR__ . "/partials/success.php"; ?>
                 <?php include __DIR__ . "/partials/errors.php"; ?>
                 <div class="block-flat">
-                    <?php if(count($_SESSION['polls']) == 0): ?>
+                    <?php if(count($results->data) == 0): ?>
                         No polls yet.
                     <?php else: ?>
                         <table class="table">
